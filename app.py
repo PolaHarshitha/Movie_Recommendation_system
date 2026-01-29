@@ -1,10 +1,22 @@
 import streamlit as st
 import pandas as pd
 import requests
+
+
+import urllib.request
 import pickle
 
-# Load the processed data and similarity matrix
-with open('movie_data.pkl', 'rb') as file:
+# Google Drive direct download link
+url = "https://drive.google.com/uc?export=download&id=1zZZgOX4ef6RNQqdPyLbEHCaanEt1vk4k"
+output_path = "movie_data.pkl"
+
+# Download the file (only if it doesn't exist yet)
+import os
+if not os.path.exists(output_path):
+    urllib.request.urlretrieve(url, output_path)
+
+# Load the pickle file
+with open(output_path, 'rb') as file:
     movies, cosine_sim = pickle.load(file)
 
 # Function to get movie recommendations
