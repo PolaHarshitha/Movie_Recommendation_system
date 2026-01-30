@@ -1,23 +1,28 @@
-import streamlit as st
-import pandas as pd
-import requests
-
-
-import urllib.request
-import pickle
-
-# Google Drive direct download link
-url = "https://drive.google.com/uc?export=download&id=1zZZgOX4ef6RNQqdPyLbEHCaanEt1vk4k"
-output_path = "movie_data.pkl"
-
-# Download the file (only if it doesn't exist yet)
 import os
-if not os.path.exists(output_path):
-    urllib.request.urlretrieve(url, output_path)
+import pickle
+import requests
+import gdown
+import streamlit as st
 
-# Load the pickle file
-with open(output_path, 'rb') as file:
-    movies, cosine_sim = pickle.load(file)
+@st.cache_resource
+def load_data():
+    file_id = "1zZZgOX4ef6RNQqdPyLbEHCaanEt1vk4k"
+    output = "movie_data.pkl"
+
+    if not os.path.exists(output):
+        gdown.download(
+            f"https://drive.google.com/uc?id={file_id}",
+            output,
+            quiet=False
+        )
+
+    with open(output, "rb") as f:
+        movies, cosine_sim = pickle.load(f)
+
+    return movies, cosine_sim
+
+movies, cosine_sim = load_data()
+
 
 # Function to get movie recommendations
 def get_recommendations(title, cosine_sim=cosine_sim):
