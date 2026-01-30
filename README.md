@@ -97,9 +97,8 @@ api_key = "YOUR_API_KEY"
 
 ---
 
-## 👤 Author
+## 👤 Harshitha
 
-**HARSHITHA**
 Aspiring Data Scientist | Machine Learning Enthusiast
 
 ---
